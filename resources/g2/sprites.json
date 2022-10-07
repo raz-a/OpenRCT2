@@ -20925,5 +20925,385 @@
         "x_offset": -5,
         "y_offset": -20,
         "palette": "keep"
-    }
+    },
+    {
+        "path": "poop/guest/01.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/02.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/03.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/04.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/05.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/06.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/07.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/08.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/09.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/10.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/11.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/12.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/13.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/14.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/15.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/16.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/17.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/18.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/19.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/20.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/21.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/22.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/23.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/24.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/25.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/26.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/27.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/28.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/29.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/30.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/31.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/32.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/33.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/34.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/35.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/36.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/37.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/38.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/39.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/40.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/41.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/42.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/43.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/44.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/45.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/46.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/47.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/48.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/49.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/50.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/51.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/52.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/53.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/54.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/55.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/56.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/57.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/58.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/59.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/60.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/61.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/62.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/63.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/64.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/65.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/66.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/67.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/68.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/69.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/70.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/71.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/guest/72.png",
+        "x_offset": -7,
+        "y_offset": -17
+      },
+      {
+        "path": "poop/litter/1.png",
+        "x_offset": -5,
+        "y_offset": -3
+      },
+      {
+        "path": "poop/litter/2.png",
+        "x_offset": -5,
+        "y_offset": -3
+      },
+      {
+        "path": "poop/litter/3.png",
+        "x_offset": -5,
+        "y_offset": -3
+      },
+      {
+        "path": "poop/litter/4.png",
+        "x_offset": -5,
+        "y_offset": -3
+      }
 ]

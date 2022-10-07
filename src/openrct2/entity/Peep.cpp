@@ -126,6 +126,7 @@ static PeepActionSpriteType PeepActionToSpriteTypeMap[] = {
     PeepActionSpriteType::DrawPicture,
     PeepActionSpriteType::BeingWatched,
     PeepActionSpriteType::WithdrawMoney,
+    PeepActionSpriteType::Poop,
 };
 
 const bool gSpriteTypeToSlowWalkMap[] = {
@@ -495,45 +496,65 @@ std::optional<CoordsXY> Peep::UpdateAction(int16_t& xy_distance)
     const PeepAnimation* peepAnimation = &GetPeepAnimation(SpriteType);
     ActionFrame++;
 
+    auto* guest = As<Guest>();
+
     // If last frame of action
     if (ActionFrame >= peepAnimation[EnumValue(ActionSpriteType)].num_frames)
     {
         ActionSpriteImageOffset = 0;
+        if (Action == PeepActionType::Poop && guest != nullptr)
+        {
+            //
+            // After pooping, a guest no longer needs to use the restroom.
+            //
+
+            guest->UpdateSpriteType();
+        }
         Action = PeepActionType::Walking;
         UpdateCurrentActionSpriteType();
         return { { x, y } };
     }
+
     ActionSpriteImageOffset = peepAnimation[EnumValue(ActionSpriteType)].frame_offsets[ActionFrame];
 
-    auto* guest = As<Guest>();
-    // If not throwing up and not at the frame where sick appears.
-    if (Action != PeepActionType::ThrowUp || ActionFrame != 15 || guest == nullptr)
+    if (guest != nullptr)
     {
-        return { { x, y } };
+        // If throwing up action frame.
+        if (Action == PeepActionType::ThrowUp && ActionFrame == 15)
+        {
+            guest->Hunger /= 2;
+            guest->NauseaTarget /= 2;
+
+            if (guest->Nausea < 30)
+                guest->Nausea = 0;
+            else
+                guest->Nausea -= 30;
+
+            WindowInvalidateFlags |= PEEP_INVALIDATE_PEEP_2;
+
+            const auto curLoc = GetLocation();
+            Litter::Create({ curLoc, Orientation }, (Id.ToUnderlying() & 1) ? Litter::Type::VomitAlt : Litter::Type::Vomit);
+
+            static constexpr OpenRCT2::Audio::SoundId coughs[4] = {
+                OpenRCT2::Audio::SoundId::Cough1,
+                OpenRCT2::Audio::SoundId::Cough2,
+                OpenRCT2::Audio::SoundId::Cough3,
+                OpenRCT2::Audio::SoundId::Cough4,
+            };
+            auto soundId = coughs[ScenarioRand() & 3];
+            OpenRCT2::Audio::Play3D(soundId, curLoc);
+        }
+
+        // If pooping action frame.
+        else if (Action == PeepActionType::Poop && ActionFrame == 40)
+        {
+            guest->Toilet = 0;
+            WindowInvalidateFlags |= PEEP_INVALIDATE_PEEP_2;
+
+            const auto curLoc = GetLocation();
+            Litter::Create({ curLoc, Orientation }, (Id.ToUnderlying() & 1) ? Litter::Type::Poop : Litter::Type::PoopAlt);
+        }
     }
-
-    // We are throwing up
-    guest->Hunger /= 2;
-    guest->NauseaTarget /= 2;
-
-    if (guest->Nausea < 30)
-        guest->Nausea = 0;
-    else
-        guest->Nausea -= 30;
-
-    WindowInvalidateFlags |= PEEP_INVALIDATE_PEEP_2;
-
-    const auto curLoc = GetLocation();
-    Litter::Create({ curLoc, Orientation }, (Id.ToUnderlying() & 1) ? Litter::Type::VomitAlt : Litter::Type::Vomit);
-
-    static constexpr OpenRCT2::Audio::SoundId coughs[4] = {
-        OpenRCT2::Audio::SoundId::Cough1,
-        OpenRCT2::Audio::SoundId::Cough2,
-        OpenRCT2::Audio::SoundId::Cough3,
-        OpenRCT2::Audio::SoundId::Cough4,
-    };
-    auto soundId = coughs[ScenarioRand() & 3];
-    OpenRCT2::Audio::Play3D(soundId, curLoc);
 
     return { { x, y } };
 }
@@ -2057,12 +2078,18 @@ static void PeepFootpathMoveForward(Peep* peep, const CoordsXYE& coords, bool va
             if (abs(litter->z - guest->NextLoc.z) > 16)
                 continue;
 
-            litter_count++;
-            if (litter->SubType != Litter::Type::Vomit && litter->SubType != Litter::Type::VomitAlt)
-                continue;
+            switch (litter->SubType)
+            {
+                case Litter::Type::Vomit:
+                case Litter::Type::VomitAlt:
+                case Litter::Type::Poop:
+                case Litter::Type::PoopAlt:
+                    sick_count++;
+                    break;
 
-            litter_count--;
-            sick_count++;
+                default:
+                    litter_count++;
+            }
         }
     }
 
