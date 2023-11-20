@@ -41,6 +41,7 @@ namespace OpenRCT2::Scripting
         { "angry", PEEP_FLAGS_ANGRY },
         { "iceCream", PEEP_FLAGS_ICE_CREAM },
         { "hereWeAre", PEEP_FLAGS_HERE_WE_ARE },
+        { "degenerate", PEEP_FLAGS_DEGENERATE },
     });
 
     class ScPeep : public ScEntity

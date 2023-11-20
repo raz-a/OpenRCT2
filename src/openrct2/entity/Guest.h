@@ -378,6 +378,15 @@ public:
     // the history, thoughts, etc.
     void RemoveRideFromMemory(RideId rideId);
 
+    // RAZTODO:
+    // - Security Guard find and neutralize degen?
+    // - Murder Thoughts
+
+    bool IsDegenerate() const;
+    void DegenerateHappinessToAngerCalculation();
+    void PerformDegenerateInteractions();
+    void Murder(Guest* victim);
+
 private:
     void UpdateRide();
     void UpdateOnRide(){}; // TODO
@@ -425,6 +434,7 @@ private:
     OpenRCT2::BitSet<OpenRCT2::Limits::MaxRidesInPark> FindRidesToGoOn();
     bool FindVehicleToEnter(const Ride& ride, std::vector<uint8_t>& car_array);
     void GoToRideEntrance(const Ride& ride);
+    void DetermineDegeneracy();
 };
 
 void UpdateRideApproachVehicleWaypointsMotionSimulator(Guest&, const CoordsXY&, int16_t&);
@@ -457,7 +467,8 @@ enum
     EASTEREGG_PEEP_NAME_KATIE_SMITH,
     EASTEREGG_PEEP_NAME_EILIDH_BELL,
     EASTEREGG_PEEP_NAME_NANCY_STILLWAGON,
-    EASTEREGG_PEEP_NAME_DAVID_ELLIS
+    EASTEREGG_PEEP_NAME_DAVID_ELLIS,
+    EASTEREGG_PEEP_NAME_CHARLES_BENIS
 };
 
 extern uint8_t gGuestChangeModifier;

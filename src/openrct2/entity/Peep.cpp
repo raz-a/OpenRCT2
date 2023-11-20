@@ -1019,6 +1019,7 @@ void Peep::Update()
         if (guest != nullptr)
         {
             guest->UpdateEasterEggInteractions();
+            guest->PerformDegenerateInteractions();
         }
     }
     else

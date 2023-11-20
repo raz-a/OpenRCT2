@@ -224,6 +224,7 @@ static constexpr const char *gPeepEasterEggNames[] = {
     "EILIDH BELL",
     "NANCY STILLWAGON",
     "DAVID ELLIS",
+    "CHARLES BENIS"
 };
 // clang-format on
 
@@ -721,6 +722,12 @@ void Guest::HandleEasterEggName()
     {
         PeepFlags |= PEEP_FLAGS_HERE_WE_ARE;
     }
+
+    PeepFlags &= ~PEEP_FLAGS_DEGENERATE;
+    if (CheckEasterEggName(EASTEREGG_PEEP_NAME_CHARLES_BENIS))
+    {
+        PeepFlags |= PEEP_FLAGS_DEGENERATE;
+    }
 }
 
 /**
@@ -771,13 +778,14 @@ void Guest::Loc68F9F3()
 
     if (State == PeepState::Walking && IsActionInterruptable())
     {
+        uint8_t poopThreshold = IsDegenerate() ? 195 : 220;
         bool update = false;
         if (NauseaTarget >= 128 && ((ScenarioRand() & 0xFF) <= static_cast<uint8_t>((Nausea - 128) / 2)))
         {
             update = true;
             Action = PeepActionType::ThrowUp;
         }
-        else if ((Toilet > 220) && ((ScenarioRand() & 0xFF) <= static_cast<uint8_t>((Toilet - 220) * 4)))
+        else if ((Toilet > poopThreshold) && ((ScenarioRand() & 0xFF) <= static_cast<uint8_t>((Toilet - poopThreshold) * 4)))
         {
             update = true;
             Action = PeepActionType::Poop;
@@ -1135,6 +1143,8 @@ void Guest::Tick128UpdateGuest(int32_t index)
                 }
                 InsertNewThought(thought_type);
             }
+
+            DegenerateHappinessToAngerCalculation();
         }
 
         switch (State)
@@ -2530,6 +2540,92 @@ void Guest::GoToRideEntrance(const Ride& ride)
     GuestTimeOnRide = 0;
 
     RemoveFromQueue();
+}
+
+/*
+ * Determines if a given guest will be a degenerate.
+ */
+void Guest::DetermineDegeneracy()
+{
+    // For now, make it a 1/4096 chance.
+    if (ScenarioRand() & 0xFFF)
+    {
+        return;
+    }
+
+    PeepFlags |= PEEP_FLAGS_DEGENERATE;
+}
+
+bool Guest::IsDegenerate() const
+{
+    return PeepFlags & PEEP_FLAGS_DEGENERATE;
+}
+
+void Guest::DegenerateHappinessToAngerCalculation()
+{
+    if (!IsDegenerate() ||
+        Angriness != 0 ||
+        Happiness > 64 ||
+        (ScenarioRand() & 0xFF) < Happiness)
+    {
+        return;
+    }
+
+    Angriness = ScenarioRand() & 0x1F;
+}
+
+void Guest::PerformDegenerateInteractions()
+{
+    if (!IsDegenerate() || Angriness == 0 || OutsideOfPark)
+    {
+        return;
+    }
+
+    auto location = GetLocation();
+    if (!IsValidLocation(location))
+    {
+        return;
+    }
+
+    for (auto guest : EntityTileList<Guest>(location))
+    {
+        if ((guest == this) ||
+            (std::abs(guest->z - location.z) > 32))
+        {
+            continue;
+        }
+
+        uint8_t murderEnergyRequirement = (ScenarioRand() % (PEEP_MAX_ENERGY - PEEP_MIN_ENERGY) + PEEP_MIN_ENERGY);
+        if (murderEnergyRequirement >= Energy)
+        {
+            continue;
+        }
+
+        if ((ScenarioRand() & 0xF) == 0)
+        {
+            Murder(guest);
+        }
+    }
+}
+
+void Guest::Murder(Guest* victim)
+{
+    gParkRatingCasualtyPenalty = std::min(gParkRatingCasualtyPenalty + 4, 1000);
+    OpenRCT2::Audio::Play3D(OpenRCT2::Audio::SoundId::Scream8, victim->GetLocation());
+
+    if (gConfigNotifications.GuestDied)
+    {
+        auto ft = Formatter();
+        victim->FormatNameTo(ft);
+        News::AddItemToQueue(News::ItemType::Blank, STR_GUEST_MURDERED, victim->x | (victim->y << 16), ft);
+    }
+
+    victim->Remove();
+
+    uint8_t statChange = ScenarioRand() & 0x3F;
+    Happiness = std::min((Happiness + statChange), PEEP_MAX_HAPPINESS);
+    Energy = std::max((Energy - statChange), PEEP_MIN_ENERGY);
+    Angriness--;
 }
 
 bool Guest::FindVehicleToEnter(const Ride& ride, std::vector<uint8_t>& car_array)
@@ -6185,10 +6281,23 @@ static PathElement* FindBreakableElement(const CoordsXYZ& loc)
  */
 static void PeepUpdateWalkingBreakScenery(Guest* peep)
 {
+    bool makeAngry = true;
+
     if (gCheatsDisableVandalism)
         return;
 
-    if (!(peep->PeepFlags & PEEP_FLAGS_ANGRY))
+    if (peep->IsDegenerate())
+    {
+        if ((ScenarioRand() & 0x1))
+        {
+            return;
+        }
+
+        // A degenerate can break scenery, but it will not make them angry.
+
+        makeAngry = false;
+    }
+    else if (!(peep->PeepFlags & PEEP_FLAGS_ANGRY))
     {
         if (peep->Happiness >= 48)
             return;
@@ -6248,7 +6357,10 @@ static void PeepUpdateWalkingBreakScenery(Guest* peep)
 
     MapInvalidateTileZoom1({ peep->NextLoc, tileElement->GetBaseZ(), tileElement->GetBaseZ() + 32 });
 
-    peep->Angriness = 16;
+    if (makeAngry)
+    {
+        peep->Angriness = 16;
+    }
 }
 
 /**
@@ -7099,6 +7211,8 @@ Guest* Guest::Generate(const CoordsXYZ& coords)
     peep->PreviousRide = RideId::GetNull();
     std::get<0>(peep->Thoughts).type = PeepThoughtType::None;
     peep->WindowInvalidateFlags = 0;
+
+    peep->DetermineDegeneracy();
 
     uint8_t intensityHighest = (ScenarioRand() & 0x7) + 3;
     uint8_t intensityLowest = std::min(intensityHighest, static_cast<uint8_t>(7)) - 3;
